@@ -1,55 +1,38 @@
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.TreeMap;
 
 public class GetUniqueWordsFromFile {
+    public static TreeMap <String, Integer> main( char[] delimiters,String text) {
 
-    public static TreeMap <String, Integer> main(Logger log, String path) {
+        TreeMap<String, Integer> foo = new TreeMap<>();
 
-        String htmlFile = parseFile(path, log);
-         Document doc = Jsoup.parse(htmlFile);
-        Elements elements = doc.select("div");
-        String text = elements.text().trim().toUpperCase();
-        String[] textSplit = text.replaceAll("[^a-zA-Zа-яёА-ЯЁ]", " ").split(" ");
+        char[] textmakeChar = text.toCharArray();
+        boolean isNum = false;
+        int indexBegin = 0;
+        for (int i = 0; i < textmakeChar.length; i++) {
+//        Приложение разбивает текст страницы на отдельные слова с помощью
+//        списка разделителей.
+            for (char delimiter : delimiters) {
+                //если разделитель и символ в тексте равны то вырезаем
+                if (delimiter == textmakeChar[i]) {
+                    String word = text.substring(indexBegin, i).toUpperCase();
+                    indexBegin = i + 1;
 
-        TreeMap<String, Integer> foo = new TreeMap<>(
-        );
+                    if (word.length() == 0) continue; // убрать пробелы
+                    if (word.equals("—")) continue; // убрать тире
+                    if (word.equals("-")) continue; // убрать минус
+                    if (isNum = word.matches("[0-9]+[\\.]?[0-9]*")) continue; // убрать цифры
 
-        int count;
-        for (String value : textSplit) {
-            count = 0;
-            for (String s : textSplit) {
-                if (value.equals(s)) {
-                    count++;
+                    if (!foo.containsKey(word)) {
+                        foo.put(word, 1);
+                    } else {
+                        foo.put(word, foo.get(word) + 1);
+                    }
                 }
             }
-            foo.put(value, count);
         }
-        log.setInLog("Напиши  ");
-//        foo.descendingMap();
+
         return foo;
     }
 
-    /**
-     * Получение данных из файла
-     *
-     * @param path путь к файлу
-     * @return строку с данными
-     */
-    public static String parseFile(String path, Logger log) {
-        StringBuilder builder = new StringBuilder();
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(path));
-             lines.forEach(line -> builder.append(line).append("\n"));
-        } catch (Exception e) {
-            log.setInLog("Errors When reading the file " + path + "I received an error of the form" + e);
-        }
-        return builder.toString();
-    }
 }
 
