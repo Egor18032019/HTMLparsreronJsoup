@@ -1,7 +1,5 @@
 import java.util.TreeMap;
 
-
-// чтение файла и подсчет ? или в отдельный класс положить и из него читать ?
 public class GetUniqueWordsFromFile {
     public static TreeMap <String, Integer> main( char[] delimiters,String text) {
 
@@ -32,6 +30,7 @@ public class GetUniqueWordsFromFile {
                 }
             }
         }
+
         return foo;
     }
 

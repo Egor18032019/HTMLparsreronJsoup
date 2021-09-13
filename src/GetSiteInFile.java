@@ -13,7 +13,7 @@ public class GetSiteInFile {
 
         String response =  getResponse(url,log);
 
-        System.out.println(log.getLog());
+
         return response;
     }
 
@@ -21,6 +21,8 @@ public class GetSiteInFile {
         String response = null;
         try {
             response = Jsoup.parse(Jsoup.connect(url).get().html()).body().text();
+            log.setInLog("INFO We made a get request and received the data whith " + url);
+
         } catch (IOException e) {
             log.setInLog("ERROR no can made GET "+e);
         }
