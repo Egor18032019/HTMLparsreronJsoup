@@ -2,9 +2,9 @@
 .DS_Store
 Thumbs.db
 
+
 # Файлы редактора
 .idea
-*.sublime*
 .vscode
 
 # Вспомогательные файлы
@@ -12,6 +12,4 @@ Thumbs.db
 node_modules/
 
 # Файлы сборки
-src/bundle.js
-src/bundle.js.map
 out
