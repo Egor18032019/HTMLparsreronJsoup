@@ -1,37 +1,39 @@
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.TreeMap;
 
+
+// чтение файла и подсчет ? или в отдельный класс положить и из него читать ?
 public class GetUniqueWordsFromFile {
+    public static TreeMap <String, Integer> main(Logger log, String path,char[] delimiters) {
 
-    public static TreeMap <String, Integer> main(Logger log, String path) {
+        String text = parseFile(path, log);
 
-        String htmlFile = parseFile(path, log);
-         Document doc = Jsoup.parse(htmlFile);
-        Elements elements = doc.select("div");
-        String text = elements.text().trim().toUpperCase();
-        String[] textSplit = text.replaceAll("[^a-zA-Zа-яёА-ЯЁ]", " ").split(" ");
+        TreeMap<String, Integer> foo = new TreeMap<>();
 
-        TreeMap<String, Integer> foo = new TreeMap<>(
-        );
+        char[] textmakeChar = text.toCharArray();
 
-        int count;
-        for (String value : textSplit) {
-            count = 0;
-            for (String s : textSplit) {
-                if (value.equals(s)) {
-                    count++;
+        int indexBegin = 0;
+        for (int i = 0; i < textmakeChar.length; i++) {
+//        Приложение разбивает текст страницы на отдельные слова с помощью
+//        списка разделителей.
+            for (char delimiter : delimiters) {
+                //если разделитель и символ в тексте равны то вырезаем
+                if (delimiter == textmakeChar[i]) {
+                    String word = text.substring(indexBegin, i).toUpperCase();
+                    indexBegin = i + 1;
+
+                    if (word.length() == 0) continue; // убрать пробелы
+
+                    if (!foo.containsKey(word)) {
+                        foo.put(word, 1);
+                    } else {
+                        foo.put(word, foo.get(word) + 1);
+                    }
                 }
             }
-            foo.put(value, count);
         }
-        log.setInLog("Напиши  ");
-//        foo.descendingMap();
         return foo;
     }
 
