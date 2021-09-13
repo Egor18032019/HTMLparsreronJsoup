@@ -1,6 +1,3 @@
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.TreeMap;
 
 
@@ -11,7 +8,7 @@ public class GetUniqueWordsFromFile {
         TreeMap<String, Integer> foo = new TreeMap<>();
 
         char[] textmakeChar = text.toCharArray();
-
+        boolean isNum = false;
         int indexBegin = 0;
         for (int i = 0; i < textmakeChar.length; i++) {
 //        Приложение разбивает текст страницы на отдельные слова с помощью
@@ -23,6 +20,9 @@ public class GetUniqueWordsFromFile {
                     indexBegin = i + 1;
 
                     if (word.length() == 0) continue; // убрать пробелы
+                    if (word.equals("—")) continue; // убрать тире
+                    if (word.equals("-")) continue; // убрать минус
+                    if (isNum = word.matches("[0-9]+[\\.]?[0-9]*")) continue; // убрать цифры
 
                     if (!foo.containsKey(word)) {
                         foo.put(word, 1);
@@ -35,21 +35,5 @@ public class GetUniqueWordsFromFile {
         return foo;
     }
 
-    /**
-     * Получение данных из файла
-     *
-     * @param path путь к файлу
-     * @return строку с данными
-     */
-    public static String parseFile(String path, Logger log) {
-        StringBuilder builder = new StringBuilder();
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(path));
-             lines.forEach(line -> builder.append(line).append("\n"));
-        } catch (Exception e) {
-            log.setInLog("Errors When reading the file " + path + "I received an error of the form" + e);
-        }
-        return builder.toString();
-    }
 }
 

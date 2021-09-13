@@ -13,34 +13,14 @@ public class Main {
     private final static char[] DELIMITERS = {' ', ',', '.', '!', '?', '"', ';', ':', '[', ']', '(', ')', '\n', '\r', '\t'};
 
     public static void main(String[] args) throws IOException {
-        textBody = new HtmlTextBody(GetSiteInFile.main(url, log, path));
+        textBody = new HtmlTextBody(GetSiteInFile.main(url, log));
 
-        TreeMap<String, Integer> answer = GetUniqueWordsFromFile.main(log, path,DELIMITERS,textBody.getText());
-//        System.out.println(answer.descendingKeySet());
-//        System.out.println(answer.descendingMap());
-//        System.out.println(answer.());
-//        SortedMap<String, Integer> sm = new ConcurrentSkipListMap<String, Integer>(answer);
-//        System.out.println(sm);
+        TreeMap<String, Integer> answer = GetUniqueWordsFromFile.main(DELIMITERS,textBody.getText());
+
         answer.forEach((str, it) -> {
-            System.out.println(str + "-" + it);
+            System.out.println(str + "=" + it);
         });
-//        System.out.println("Iterate using KeySet: ");
-//        for(String i: answer.keySet())
-//            System.out.println(i + "=" + answer.get(i));
-//    }
+
     }
 }
 
-
-
-/*
-   mp.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByKey());
- */
-/*
-  SortedSet<Map.Entry<String, Integer>> sortedset = new TreeSet<>
-                (Comparator.comparing(Map.Entry::getValue));
-        sortedset.addAll(answer.entrySet());
-         System.out.println(sortedset);
- */
