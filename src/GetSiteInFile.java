@@ -11,9 +11,9 @@ public class GetSiteInFile {
     private static final String CONTENT_TYPE = "Content-Type";
 
 
-    public static void main(String url, Logger log, String path,HtmlTextBody textBody)   {
+    public static String main(String url, Logger log, String path)   {
 
-             Object response =  getResponse(url,log,textBody);
+        String response =  getResponse(url,log);
         try {
             PrintWriter writer = new PrintWriter(path);
             writer.write(response.toString());
@@ -27,10 +27,10 @@ public class GetSiteInFile {
            log.setInLog("ERROR no can wright in file " +path +e);
         }
         System.out.println(log.getLog());
-//        return response;
+        return response;
     }
 
-    public static String getResponse(String url, Logger log,HtmlTextBody textBody)   {
+    public static String getResponse(String url, Logger log)   {
         String response = null;
         try {
             response = Jsoup.parse(Jsoup.connect(url).get().html()).body().text();

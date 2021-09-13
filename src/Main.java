@@ -13,9 +13,9 @@ public class Main {
     private final static char[] DELIMITERS = {' ', ',', '.', '!', '?', '"', ';', ':', '[', ']', '(', ')', '\n', '\r', '\t'};
 
     public static void main(String[] args) throws IOException {
-        GetSiteInFile.main(url, log, path,textBody);
+        textBody = new HtmlTextBody(GetSiteInFile.main(url, log, path));
 
-        TreeMap<String, Integer> answer = GetUniqueWordsFromFile.main(log, path,DELIMITERS);
+        TreeMap<String, Integer> answer = GetUniqueWordsFromFile.main(log, path,DELIMITERS,textBody.getText());
 //        System.out.println(answer.descendingKeySet());
 //        System.out.println(answer.descendingMap());
 //        System.out.println(answer.());
