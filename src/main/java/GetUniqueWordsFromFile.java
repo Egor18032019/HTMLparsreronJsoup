@@ -1,6 +1,9 @@
 import java.util.TreeMap;
+import java.util.logging.Logger;
 
 public class GetUniqueWordsFromFile {
+    private static Logger log = Logger.getLogger(GetUniqueWordsFromFile.class.getName());
+
     public static TreeMap <String, Integer> main( char[] delimiters,String text) {
 
         TreeMap<String, Integer> foo = new TreeMap<>();
@@ -30,7 +33,7 @@ public class GetUniqueWordsFromFile {
                 }
             }
         }
-
+log.info("INFO get unique words ");
         return foo;
     }
 
