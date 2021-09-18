@@ -10,9 +10,14 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 public class MongoApp {
     private static final String MONGO_URL = getKeyFromFile();
+    private static Logger log = Logger.getLogger(Main.class.getName());
 
     public static void main(TreeMap<String, Integer> args) {
         MongoClient client = new MongoClient(new MongoClientURI(MONGO_URL));
@@ -50,7 +55,7 @@ public class MongoApp {
             fis.close();
             return key;
         } catch (IOException e) {
-            System.err.println("Error: no can find properties file!");
+            LOGGER.log(Level.WARNING,"ERROR no can made GET" , e);
         }
 
         return null;
